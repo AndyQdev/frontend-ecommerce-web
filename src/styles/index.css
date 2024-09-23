@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+  border: 0 solid #e5e7eb;
+}
+
+.dark * {
+  border-color: #27272a;
+  scrollbar-color: #27272a transparent;
+  scrollbar-width: auto;
+  transition: all none;
+  transition-duration: 0s;
+}
+
+@media (prefers-color-scheme: light) {
+  * {
+    border-color: #e4e4e7;
+    scrollbar-color: #e4e4e7 transparent;
+    scrollbar-width: auto;
+    transition: all none;
+    transition-duration: 0s;
+  }
+}
