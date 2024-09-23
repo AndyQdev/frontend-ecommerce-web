@@ -37,6 +37,7 @@ const UserPage = (): JSX.Element => {
   console.log(allUsers)
   // const debounceSearchProduct = useDebounce(searchProduct, 1000)
   const deletePermanentlyUser = (id: string) => {
+    console.log(id)
     // toast.promise(deleteUser(id), {
     //   loading: 'Cargando...',
     //   success: () => {

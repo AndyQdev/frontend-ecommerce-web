@@ -49,6 +49,7 @@ const RolesPage = (): JSX.Element => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const deletePermanently = (id: string) => {
+    console.log(id)
     // toast.promise(deleteRole(id), {
     //   loading: 'Cargando...',
     //   success: () => {

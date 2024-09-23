@@ -8,7 +8,7 @@ import { type Product } from '../models/product.model'
 import { useAuthorization } from '@/hooks/useAuthorization'
 import { useEffect } from 'react'
 import { toast } from 'sonner'
-import { PERMISSION } from '@/modules/auth/utils/permissions.constants'
+// import { PERMISSION } from '@/modules/auth/utils/permissions.constants'
 import { filterStateDefault, useFilterData } from '@/hooks/useFilterData'
 
 interface UseGetAllProductsProps extends GetAllProps {
@@ -19,15 +19,15 @@ const useGetAllProducts = ({ isGetAll }: UseGetAllProductsProps) => {
   const { verifyPermission } = useAuthorization()
   let mounted = true
   useEffect(() => {
-    if (!verifyPermission([PERMISSION.PRODUCT, PERMISSION.PRODUCT_SHOW])) {
+    if (!verifyPermission()) {
       mounted && toast.info('No tienes permisos para listar los productos, comunícate con un administrador.')
     }
     return () => {
       mounted = false
     }
-  }, [!verifyPermission([PERMISSION.PRODUCT, PERMISSION.PRODUCT_SHOW])])
+  }, [!verifyPermission()])
 
-  if (!verifyPermission([PERMISSION.PRODUCT, PERMISSION.PRODUCT_SHOW])) {
+  if (!verifyPermission()) {
     return {
       products: [],
       countData: 0,

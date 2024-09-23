@@ -42,6 +42,7 @@ const ProductosPage = (): JSX.Element => {
   // const { deleteProduct } = useDeleteProduct()
 
   const deletePermanentlyRole = (id: string) => {
+    console.log(id)
     // toast.promise(deleteProduct(id), {
     //   loading: 'Cargando...',
     //   success: () => {

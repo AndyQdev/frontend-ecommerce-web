@@ -48,7 +48,7 @@ function Navigation() {
         </Link>
         {status === authStatus.authenticated
           ? MenuSideBar.map((item: MenuHeaderRoute, index) => {
-            if (item.children && verifyPermission(item.permissions!)) {
+            if (item.children && verifyPermission()) {
               return (
                 <Collapsible key={index} open={menuActive[item.label]} className='w-full'>
                   <CollapsibleTrigger
@@ -76,7 +76,7 @@ function Navigation() {
                   <CollapsibleContent>
                     <div className="flex flex-col pl-9 relative w-full">
                       {item.children.map((child, index) => {
-                        if (verifyPermission(child.permissions!)) {
+                        if (verifyPermission()) {
                           return (
                             <Link
                               key={index}
@@ -96,7 +96,7 @@ function Navigation() {
                   </CollapsibleContent>
                 </Collapsible>)
             } else {
-              if (verifyPermission(item.permissions!)) {
+              if (verifyPermission()) {
                 return (
                   <Link
                     key={index}

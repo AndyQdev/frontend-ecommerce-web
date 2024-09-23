@@ -1,4 +1,4 @@
-import { type PERMISSION } from '@/modules/auth/utils/permissions.constants'
+// import { type PERMISSION } from '@/modules/auth/utils/permissions.constants'
 // import { type User } from '@/modules/users/models/user.model'
 // import { type RootState } from '@/redux/store'
 // import { useSelector } from 'react-redux'
@@ -9,7 +9,8 @@ export const useAuthorization = () => {
   const { status } = useAuth()
   // const data: User = useSelector((state: RootState) => state.user)
 
-  const verifyPermission = (permissionRequired: PERMISSION[]) => {
+  // const verifyPermission = (permissionRequired: PERMISSION[]) => {
+  const verifyPermission = () => {
     if (status === authStatus.authenticated) {
       // return permissionRequired.some((permission) =>
       //   data?.role?.permissions?.some((rolePermission) =>
