@@ -43,9 +43,6 @@ const LoginPage = (): JSX.Element => {
           <div className="grid w-[350px] gap-6">
             <Card className="relative">
               <CardHeader className='relative'>
-                {/* <div className='absolute -top-10 left-1/2 transform -translate-x-1/2'>
-                  <img src={logo} alt="Logo" className='w-32 h-28'/>
-                </div> */}
                 <CardTitle className="text-center">FashionScape</CardTitle>
                 <CardDescription className='text-center'>
                   Ingrese su correo electrónico a continuación para iniciar sesión en su cuenta
@@ -93,6 +90,11 @@ const LoginPage = (): JSX.Element => {
                 </Form>
               </CardContent>
             </Card>
+            <div>
+              <h1>Nota: Para ingresar colocar este correo y contraseña:</h1>
+              <div>correo: admin@gmail.com</div>
+              <div>contraseña: 123456</div>
+            </div>
           </div>
       </main>
       {/* <SiteFooter /> */}
