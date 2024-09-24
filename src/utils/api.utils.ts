@@ -7,6 +7,7 @@ export const ENDPOINTS = {
   RECOVER_PASSWORD: '/api/forgot-password',
   // user
   USER: '/api/users',
+  REGISTER: '/auth/register',
   ROLE: '/api/roles',
   PERMISO: '/api/permiso',
 

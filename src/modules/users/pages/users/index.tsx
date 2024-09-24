@@ -10,7 +10,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 // import Skeleton from '@/components/shared/skeleton'
 // import Pagination from '@/components/shared/pagination'
-import { useGetAllUser } from '../../hooks/useUser'
+// import { useGetAllUser } from '../../hooks/useUser'
 import { type User } from '../../models/user.model'
 import { Badge } from '@/components/ui/badge'
 import { useHeader } from '@/hooks'
@@ -22,6 +22,8 @@ import { Input } from '@/components/ui/input'
 // import { type Role } from '@/modules/auth/models/role.model'
 import Pagination from '@/components/shared/pagination'
 import Skeleton from '@/components/shared/skeleton'
+import { useGetAllResource } from '@/hooks/useCrud'
+import { ENDPOINTS } from '@/utils'
 // import { PERMISSION } from '@/modules/auth/utils/permissions.constants'
 
 const UserPage = (): JSX.Element => {
@@ -30,7 +32,7 @@ const UserPage = (): JSX.Element => {
     { label: 'Usuarios' }
   ])
   const navigate = useNavigate()
-  const { allUsers, countData, isLoading, filterOptions, newPage, prevPage, setOffset } = useGetAllUser()
+  const { allResource: allUsers, countData, isLoading, filterOptions, newPage, prevPage, setOffset } = useGetAllResource(ENDPOINTS.USER)
   // const { deleteUser } = useDeleteUser()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [, setSearchProduct] = useState('')
@@ -124,8 +126,8 @@ const UserPage = (): JSX.Element => {
                         <TableCell>{user.role.name}</TableCell>
                         <TableCell>{user.branch ? user.branch.name : '-'}</TableCell>
                         <TableCell>
-                          <Badge variant={user.isActive ? 'default' : 'outline'}>
-                            {user.isActive ? 'Activo' : 'Inactivo'}
+                          <Badge variant={!user.is_active ? 'default' : 'outline'}>
+                            {!user.is_active ? 'Activo' : 'Inactivo'}
                           </Badge>
                         </TableCell>
                         <TableCell>
@@ -136,7 +138,7 @@ const UserPage = (): JSX.Element => {
                                 <span className="sr-only">Toggle menu</span>
                               </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
+                            <DropdownMenuContent align="end" className='bg-light-bg-primary'>
                               <DropdownMenuLabel>Acciones</DropdownMenuLabel>
                               <DropdownMenuItem onClick={() => { navigate(`${PrivateRoutes.USER}/${user.id}`) }}>Editar</DropdownMenuItem>
                               <DropdownMenuItem className='p-0'>
@@ -144,18 +146,18 @@ const UserPage = (): JSX.Element => {
                                   <AlertDialogTrigger asChild className='w-full px-2 py-1.5'>
                                     <div
                                       onClick={(event) => { event.stopPropagation() }}
-                                      className={`${user.isActive ? 'text-danger' : ''} flex items-center`}
+                                      className={`${user.is_active ? 'text-danger' : ''} flex items-center`}
                                     >
-                                      {user.isActive
+                                      {user.is_active
                                         ? <><Trash className="mr-2 h-4 w-4" />Eliminar</>
                                         : 'Activar'}
                                     </div>
                                   </AlertDialogTrigger>
                                   <AlertDialogContent>
                                     <AlertDialogHeader>
-                                      <AlertDialogTitle>{user.isActive ? 'Eliminar usuario' : 'Activar usuario'}</AlertDialogTitle>
+                                      <AlertDialogTitle>{user.is_active ? 'Eliminar usuario' : 'Activar usuario'}</AlertDialogTitle>
                                     </AlertDialogHeader>
-                                    {user.isActive
+                                    {user.is_active
                                       ? <>
                                         <AlertDialogDescription>Esta acción eliminará el usuario, no se puede deshacer.</AlertDialogDescription>
                                         <AlertDialogDescription>¿Estás seguro que deseas continuar?</AlertDialogDescription>
@@ -166,7 +168,7 @@ const UserPage = (): JSX.Element => {
                                     }
                                     <AlertDialogFooter>
                                       <AlertDialogCancel className='h-fit'>Cancelar</AlertDialogCancel>
-                                      {user.isActive &&
+                                      {user.is_active &&
                                         <AlertDialogAction className='h-full' onClick={() => { deletePermanentlyUser(user.id) }}>
                                           Continuar
                                         </AlertDialogAction>}

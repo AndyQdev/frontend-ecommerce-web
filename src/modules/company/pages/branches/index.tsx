@@ -17,12 +17,14 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useHeader } from '@/hooks'
-import { useGetAllBranches } from '../../hooks/useBranch'
+// import { useGetAllBranches } from '../../hooks/useBranch'
 import Loading from '@/components/shared/loading'
 import { type Branch } from '../../models/branch.model'
 import Pagination from '@/components/shared/pagination'
 import useDebounce from '@/hooks/useDebounce'
 import { Input } from '@/components/ui/input'
+import { useGetAllResource } from '@/hooks/useCrud'
+import { ENDPOINTS } from '@/utils'
 
 const BranchesPage = () => {
   useHeader([
@@ -31,7 +33,7 @@ const BranchesPage = () => {
     { label: 'Sucursales' }
   ])
   const navigate = useNavigate()
-  const { branches, countData, isLoading, filterOptions, newPage, prevPage, setOffset, search, error } = useGetAllBranches({ isGetAll: false })
+  const { allResource: branches, countData, isLoading, filterOptions, newPage, prevPage, setOffset, search, error } = useGetAllResource(ENDPOINTS.BRANCH)
   const [searchProduct, setSearchProduct] = useState('')
   const debounceSearchProduct = useDebounce(searchProduct, 1000)
   let subscribe = true

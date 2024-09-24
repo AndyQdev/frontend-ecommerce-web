@@ -9,16 +9,15 @@ export interface User extends ApiBase {
   direccion: string
   telefono: string
   gender: GENDER
-  isActive: boolean
+  is_active: boolean
   role: Role
   branch: Branch
   password: string
 }
 
 export interface CreateUser extends Partial<Omit<User, 'role' | 'branch' | 'gender'>> {
-  gender: string
-  role: string
-  branch?: string
+  roleId?: string
+  branchId?: string
 }
 
 export interface UpdateUser extends CreateUser { }

@@ -6,6 +6,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
@@ -27,14 +28,15 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { useNavigate } from 'react-router-dom'
-import { useGetAllRole } from '@/modules/auth/hooks/useRole'
 import { type Role } from '../../models/role.model'
-import { FormatDateMMMDYYYY } from '@/utils'
+import { ENDPOINTS, FormatDateMMMDYYYY } from '@/utils'
 import { useHeader } from '@/hooks'
 import Loading from '@/components/shared/loading'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 // import { toast } from 'sonner'
 import { useState } from 'react'
+import { useGetAllResource } from '@/hooks/useCrud'
+import Pagination from '@/components/shared/pagination'
 
 const RolesPage = (): JSX.Element => {
   useHeader([
@@ -43,7 +45,7 @@ const RolesPage = (): JSX.Element => {
     { label: 'Roles' }
   ])
   const navigate = useNavigate()
-  const { allRoles, isLoading } = useGetAllRole()
+  const { allResource: allRoles, countData, isLoading, filterOptions, newPage, prevPage, setOffset } = useGetAllResource(ENDPOINTS.BRANCH)
   // const { deleteRole, error } = useDeleteRole()
   console.log(allRoles)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -187,6 +189,19 @@ const RolesPage = (): JSX.Element => {
             </Table>
             {isLoading && <div className='grid place-content-center place-items-center w-full shrink-0 pt-6'><Loading /></div>}
           </CardContent>
+          <CardFooter className='w-full'>
+          <Pagination
+            allItems={countData ?? 0}
+            currentItems={allRoles?.length ?? 0}
+            limit={filterOptions.limit}
+            newPage={() => { newPage(countData ?? 0) }}
+            offset={filterOptions.offset}
+            prevPage={prevPage}
+            setOffset={setOffset}
+            setLimit={() => { }}
+            params={true}
+          />
+        </CardFooter>
         </Card>
       </div>
     </>
