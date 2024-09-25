@@ -24,7 +24,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { cn } from '@/lib/utils'
 import { type Branch } from '@/modules/company/models/branch.model'
-import { useCreateResource, useGetAllResource, useGetResource } from '@/hooks/useCrud'
+import { useCreateResource, useGetAllResource, useGetResource, useUpdateResource } from '@/hooks/useCrud'
 import { type User, type CreateUser } from '@/modules/users/models/user.model'
 import { ENDPOINTS } from '@/utils'
 import { type Role } from '@/modules/auth/models/role.model'
@@ -57,12 +57,12 @@ const UserFormPage = ({ buttonText, title }: IFormProps) => {
   const { id } = useParams()
   const navigate = useNavigate()
   const { createResource, isMutating } = useCreateResource<CreateUser>(ENDPOINTS.REGISTER)
-  // const { updateUser } = useUpdateUser()
+  const { updateResource: updateUser } = useUpdateResource<CreateUser>(ENDPOINTS.USER, id)
   // const { allRoles, error: errorRole } = useGetAllRole()
   const { allResource: branches } = useGetAllResource(ENDPOINTS.BRANCH)
   const { allResource: allRoles } = useGetAllResource(ENDPOINTS.ROLE)
 
-  const { resource: user } = useGetResource<User>(id)
+  const { resource: user } = useGetResource<User>(id, ENDPOINTS.USER)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -83,16 +83,16 @@ const UserFormPage = ({ buttonText, title }: IFormProps) => {
     // return toast.error('La sucursal es requerida para el rol seleccionado')
     // }
     if (id) {
-      // toast.promise(updateUser({ id, ...data }), {
-      //   loading: 'Actualizando sucursal...',
-      //   success: () => {
-      //     setTimeout(() => { navigate(PrivateRoutes.USER, { replace: true }) }, 1000)
-      //     return 'Sucursal actualizada exitosamente'
-      //   },
-      //   error(error) {
-      //     return error.errorMessages[0] ?? 'Error al actualizar la sucursal'
-      //   }
-      // })
+      toast.promise(updateUser(data), {
+        loading: 'Actualizando usuario...',
+        success: () => {
+          setTimeout(() => { navigate(PrivateRoutes.USER, { replace: true }) }, 1000)
+          return 'Usuario actualizada exitosamente'
+        },
+        error(error) {
+          return error.errorMessages[0] ?? 'Error al actualizar la sucursal'
+        }
+      })
     } else {
       toast.promise(createResource({
         ...data,

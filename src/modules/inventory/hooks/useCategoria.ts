@@ -2,7 +2,6 @@ import useSWR from 'swr'
 import { type ResponseError } from '@/utils/response-error.utils'
 import { API_BASEURL, ENDPOINTS } from '@/utils'
 import { getAllCategorias } from '../services/permissions.service'
-// import useSWRMutation from 'swr/mutation'
 import { type Categoria } from '../models/catorgoria.model'
 
 const useGetAllCategorias = () => {

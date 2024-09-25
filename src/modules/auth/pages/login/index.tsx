@@ -2,15 +2,12 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
-// import { useAuth } from '@/hooks'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-// import { SiteFooter } from '@/components/shared/'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/hooks'
 import Loading from '@/components/shared/loading'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-// import Loading from '@/components/shared/loading'
 
 const formSchema = z.object({
   email: z.string({ message: 'El correo electrónico es requerido' })

@@ -35,11 +35,12 @@ export const userRoutes: Route[] = [
     permissions: [] as PERMISSION[]
     // permissions: [PERMISSION.USER]
   },
-  // {
-  //   path: PrivateRoutes.USER_EDIT,
-  //   element: createElement(UserFormPage, { buttonText: 'Editar Usuario', title: 'Actualizar Usuario' }),
-  //   permissions: [PERMISSION.USER]
-  // },
+  {
+    path: PrivateRoutes.USER_EDIT,
+    element: createElement(UserFormPage, { buttonText: 'Editar Usuario', title: 'Actualizar Usuario' }),
+    permissions: [] as PERMISSION[]
+    // permissions: [PERMISSION.USER]
+  },
   {
     path: PrivateRoutes.ROLES,
     element: createElement(RolesPage),

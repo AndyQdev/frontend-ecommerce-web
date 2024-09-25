@@ -34,6 +34,7 @@ const getUser = async (url: string): Promise<User> => {
 //   }
 //   await fetchData(`${url}/${arg.id}`, options)
 // }
+
 const getAllUser = async (url: string): Promise<ApiResponse> => {
   const options: RequestInit = { method: 'GET' }
   const response = await fetchData(url, options)

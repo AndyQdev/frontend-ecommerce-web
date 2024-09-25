@@ -4,7 +4,7 @@ import { type PERMISSION } from '@/modules/auth/utils/permissions.constants'
 const ProductPage = lazy(() => import('@/modules/inventory/pages/product'))
 const CategoriaPage = lazy(() => import('@/modules/inventory/pages/category/index'))
 
-// const ProductFormPage = lazy(() => import('@modules/inventory/pages/product/product-form'))
+const ProductFormPage = lazy(() => import('@/modules/inventory/pages/product/components/product-form'))
 // const ProductDetailsPage = lazy(() => import('@/modules/inventory/pages/product/details'))
 // const BatchFormPage = lazy(() => import('@modules/inventory/pages/product/components/batch-form'))
 // const FuelPage = lazy(() => import('@modules/inventory/pages/fuel'))
@@ -23,17 +23,19 @@ export const inventoryRoutes: Route[] = [
     path: PrivateRoutes.CATEGORY,
     element: createElement(CategoriaPage),
     permissions: [] as PERMISSION[]
+  },
+  {
+    path: PrivateRoutes.PRODUCT_ADD,
+    element: createElement(ProductFormPage, { buttonText: 'Guardar Producto', title: 'Crear Producto' }),
+    permissions: [] as PERMISSION[]
+    // permissions: [PERMISSION.PRODUCT]
+  },
+  {
+    path: PrivateRoutes.PRODCUT_EDIT,
+    element: createElement(ProductFormPage, { buttonText: 'Actualizar Producto', title: 'Editar Producto' }),
+    permissions: [] as PERMISSION[]
+    // permissions: [PERMISSION.PRODUCT]
   }
-  // {
-  //   path: PrivateRoutes.PRODUCT_ADD,
-  //   element: createElement(ProductFormPage, { buttonText: 'Guardar Producto', title: 'Crear Producto' }),
-  //   permissions: [PERMISSION.PRODUCT]
-  // },
-  // {
-  //   path: PrivateRoutes.PRODCUT_EDIT,
-  //   element: createElement(ProductFormPage, { buttonText: 'Actualizar Producto', title: 'Editar Producto' }),
-  //   permissions: [PERMISSION.PRODUCT]
-  // },
   // {
   //   path: PrivateRoutes.PRODUCT_DETAILS,
   //   element: createElement(ProductDetailsPage),

@@ -35,17 +35,24 @@ const createResource = async <T>(url: string, { arg }: { arg: T }): Promise<void
 //   return response
 // }
 
-const updateResource = async <T>(url: string, { arg }: { arg: T }, id: string): Promise<void> => {
+const updateResource = async <T>(url: string, { arg }: { arg: T }): Promise<void> => {
   const options: RequestInit = {
     method: 'PATCH',
     body: JSON.stringify(arg)
   }
-  await fetchData(`${url}/${id}`, options)
+  await fetchData(`${url}`, options)
 }
 
-const deleteRosource = async (url: string, id: string): Promise<void> => {
+// const updateDispenser = async (url: string, { arg }: { arg: DispenserUpdate }): Promise<void> => {
+//   const options: RequestInit = {
+//     method: 'PATCH',
+//     body: JSON.stringify(arg)
+//   }
+//   await fetchData(`${url}/${arg.id}`, options)
+// }
+const deleteResource = async (url: string, { arg }: { arg: string }): Promise<void> => {
   const options: RequestInit = { method: 'DELETE' }
-  await fetchData(`${url}/${id}`, options)
+  await fetchData(`${url}/${arg}`, options)
 }
 
-export { getAllResource, createResource, updateResource, getResource, deleteRosource }
+export { getAllResource, createResource, updateResource, getResource, deleteResource }

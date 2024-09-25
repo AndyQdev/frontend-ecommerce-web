@@ -1,4 +1,4 @@
-import { ChevronLeftIcon, File, ListFilter, MoreHorizontal, PlusCircle, Search } from 'lucide-react'
+import { ChevronLeftIcon, File, ListFilter, MoreHorizontal, Pencil, PlusCircle, Search, Trash } from 'lucide-react'
 
 // import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -27,6 +27,10 @@ import Pagination from '@/components/shared/pagination'
 import { Input } from '@/components/ui/input'
 import useDebounce from '@/hooks/useDebounce'
 import { useEffect, useState } from 'react'
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
+import { toast } from 'sonner'
+import { useDeleteResource } from '@/hooks/useCrud'
+import { ENDPOINTS } from '@/utils'
 
 const ProductosPage = (): JSX.Element => {
   useHeader([
@@ -35,24 +39,26 @@ const ProductosPage = (): JSX.Element => {
   ])
   const navigate = useNavigate()
   // const user = useSelector((state: RootState) => state.user)
-  const { products, isLoading, countData, filterOptions, newPage, prevPage, setOffset, search } = useGetAllProducts({ isGetAll: false })
+  const { products, isLoading, countData, filterOptions, newPage, prevPage, setOffset, search, mutate } = useGetAllProducts({ isGetAll: false })
   const [searchProduct, setSearchProduct] = useState('')
   const debounceSearchProduct = useDebounce(searchProduct, 1000)
-
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
   // const { deleteProduct } = useDeleteProduct()
+  const { deleteResource: deleteProduct } = useDeleteResource(ENDPOINTS.PRODUCT)
 
-  const deletePermanentlyRole = (id: string) => {
-    console.log(id)
-    // toast.promise(deleteProduct(id), {
-    //   loading: 'Cargando...',
-    //   success: () => {
-    //     setTimeout(() => {
-    //       navigate(PrivateRoutes.PRODUCT, { replace: true })
-    //     }, 1000)
-    //     return 'Acción realizada exitosamente'
-    //   },
-    //   error: 'Error al realizar esta acción'
-    // })
+  const deletePermanentlyProduct = (id: string) => {
+    toast.promise(deleteProduct(id), {
+      loading: 'Cargando...',
+      success: () => {
+        setTimeout(() => {
+          void mutate()
+          navigate(PrivateRoutes.PRODUCT, { replace: true })
+        }, 1000)
+        return 'Usuario eliminado exitosamente'
+      },
+      error: 'Ocurrio un error al eliminar el usuario'
+    })
+    setIsDialogOpen(false)
   }
 
   useEffect(() => {
@@ -173,12 +179,45 @@ const ProductosPage = (): JSX.Element => {
                                   <span className="sr-only">Toggle menu</span>
                                 </Button>
                               </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
+                              <DropdownMenuContent className='bg-light-bg-primary' align="end">
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                <DropdownMenuItem onClick={() => { navigate(`${PrivateRoutes.PRODUCT}/${product.id}/detalles`) }}>Ver detalles</DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => { navigate(`${PrivateRoutes.PRODUCT}/${product.id}`) }}>Editar</DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => { deletePermanentlyRole(product.id) }}>
-                                  {/* {product.is_active ? 'Desactivar' : 'Activar'} */}
+                                {/* <DropdownMenuItem onClick={() => { navigate(`${PrivateRoutes.PRODUCT}/${product.id}/detalles`) }}>Ver detalles</DropdownMenuItem> */}
+                                <DropdownMenuItem onClick={() => { navigate(`${PrivateRoutes.PRODUCT}/${product.id}`) }}>
+                                  <Pencil className="mr-2 h-4 w-4" />
+                                  Editar
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="text-red-600">
+                                  <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                                    <AlertDialogTrigger asChild>
+                                      <div
+                                        style={{
+                                          display: 'flex',
+                                          alignItems: 'center',
+                                          width: '100%',
+                                          justifyContent: 'space-between'
+                                        }}
+                                        onClick={(event) => { event.stopPropagation() }}
+                                      >
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                          <Trash className="mr-2 h-4 w-4" />
+                                          Delete
+                                        </div>
+                                      </div>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent className='bg-light-bg-primary'>
+                                      <AlertDialogHeader>
+                                        <AlertDialogTitle>Estas seguro de eliminar este descuento?</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                          Esta acción no se puede deshacer. Esto eliminará permanentemente tu
+                                          descuento.
+                                        </AlertDialogDescription>
+                                      </AlertDialogHeader>
+                                      <AlertDialogFooter>
+                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                        <AlertDialogAction onClick={() => { deletePermanentlyProduct(product.id) }}>Continue</AlertDialogAction>
+                                      </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                  </AlertDialog>
                                 </DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>

@@ -6,7 +6,7 @@ import { type ResponseError } from '@/utils/response-error.utils'
 import useSWR from 'swr'
 import { filterStateDefault, useFilterData } from '@/hooks/useFilterData'
 import { type ApiResponse } from '@/models'
-import { createResource, getAllResource, getResource } from '@/services/crud.service'
+import { createResource, deleteResource, getAllResource, getResource, updateResource } from '@/services/crud.service'
 
 // const useCreateUser = <T, TResponse>(endpoint: string, service: TResponse) => {
 //   const { trigger, isMutating, error } = useSWRMutation<Promise<void>, ResponseError, string, T>(API_BASEURL + endpoint, service)
@@ -32,19 +32,22 @@ const useGetAllResource = (endpoint: string) => {
   return { allResource: data?.data ?? [], countData: data?.countData ?? 0, error, isLoading, mutate, changeOrder, filterOptions, newPage, prevPage, search, setFilterOptions, setOffset }
 }
 
-// const useUpdateUser = () => {
-//   const { trigger, isMutating, error } = useSWRMutation<Promise<void>, ResponseError, string, UpdateUser>(API_BASEURL + ENDPOINTS.USER, updateUser)
-//   return { updateUser: trigger, isMutating, error }
-// }
+const useUpdateResource = <TData>(endpoint: string, id?: string) => {
+  const { trigger, isMutating, error } = useSWRMutation<Promise<void>, ResponseError, string, TData>(
+    API_BASEURL + endpoint + `/${id}`,
+    updateResource
+  )
+  return { updateResource: trigger, isMutating, error }
+}
 
-// const useDeleteUser = () => {
-//   const { trigger, error, isMutating } = useSWRMutation<Promise<void>, ResponseError, string, string>(API_BASEURL + ENDPOINTS.USER, deleteUser)
-//   return { deleteUser: trigger, error, isMutating }
-// }
+const useDeleteResource = (endpoint: string) => {
+  const { trigger, error, isMutating } = useSWRMutation<Promise<void>, ResponseError, string, string>(API_BASEURL + endpoint, deleteResource)
+  return { deleteResource: trigger, error, isMutating }
+}
 
 // const useDeleteRole = () => {
 //   const { trigger, error, isMutating } = useSWRMutation<Promise<void>, ResponseError, string, string>(API_BASEURL + ENDPOINTS.ROLE, deleteRole)
 //   return { deleteRole: trigger, error, isMutating }
 // }
 
-export { useCreateResource, useGetAllResource, useGetResource }
+export { useCreateResource, useGetAllResource, useGetResource, useUpdateResource, useDeleteResource }

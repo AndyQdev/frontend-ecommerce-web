@@ -48,13 +48,13 @@ export const fetchData = async (url: string, options?: RequestInit, typeBlob?: b
     }
   }
 
-  console.log(url, requestOptions) // Solo para verificar la URL y las opciones que se están enviando
-
   // Realiza la solicitud usando fetch
   const response = await fetch(url, requestOptions)
+  console.log(response) // Solo para verificar la URL y las opciones que se están enviando
 
   // Maneja errores de la respuesta
   await handleResponseErrors(response)
+  // Si la respuesta es 204 (No Content), devolver null o simplemente no intentar parsear el cuerpo
 
   // Si no se espera un archivo blob, devuelve la respuesta en formato JSON
   return !typeBlob ? await response.json() : response

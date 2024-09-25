@@ -1,7 +1,7 @@
 // import { toast } from 'sonner'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ChevronLeftIcon, File, ListFilter, MoreHorizontal, PlusCircle, Search, Trash } from 'lucide-react'
+import { ChevronLeftIcon, File, ListFilter, MoreHorizontal, Pencil, PlusCircle, Search, Trash } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
@@ -22,8 +22,9 @@ import { Input } from '@/components/ui/input'
 // import { type Role } from '@/modules/auth/models/role.model'
 import Pagination from '@/components/shared/pagination'
 import Skeleton from '@/components/shared/skeleton'
-import { useGetAllResource } from '@/hooks/useCrud'
+import { useDeleteResource, useGetAllResource } from '@/hooks/useCrud'
 import { ENDPOINTS } from '@/utils'
+import { toast } from 'sonner'
 // import { PERMISSION } from '@/modules/auth/utils/permissions.constants'
 
 const UserPage = (): JSX.Element => {
@@ -32,28 +33,24 @@ const UserPage = (): JSX.Element => {
     { label: 'Usuarios' }
   ])
   const navigate = useNavigate()
-  const { allResource: allUsers, countData, isLoading, filterOptions, newPage, prevPage, setOffset } = useGetAllResource(ENDPOINTS.USER)
-  // const { deleteUser } = useDeleteUser()
+  const { allResource: allUsers, countData, isLoading, mutate, filterOptions, newPage, prevPage, setOffset } = useGetAllResource(ENDPOINTS.USER)
+  const { deleteResource: deleteUser } = useDeleteResource(ENDPOINTS.USER)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [, setSearchProduct] = useState('')
   console.log(allUsers)
-  // const debounceSearchProduct = useDebounce(searchProduct, 1000)
   const deletePermanentlyUser = (id: string) => {
-    console.log(id)
-    // toast.promise(deleteUser(id), {
-    //   loading: 'Cargando...',
-    //   success: () => {
-    //     void mutate()
-    //     setTimeout(() => {
-    //       navigate(PrivateRoutes.USER, { replace: true })
-    //     }, 1000)
-    //     return 'Usuario eliminado exitosamente'
-    //   },
-    //   error(error) {
-    //     return error.errorMessages[0] ?? 'Puede que el usuario tenga permisos asignados, por lo que no se puede eliminar'
-    //   }
-    // })
-    // setIsDialogOpen(false)
+    toast.promise(deleteUser(id), {
+      loading: 'Cargando...',
+      success: () => {
+        setTimeout(() => {
+          void mutate()
+          navigate(PrivateRoutes.USER, { replace: true })
+        }, 1000)
+        return 'Usuario eliminado exitosamente'
+      },
+      error: 'Ocurrio un error al eliminar el usuario'
+    })
+    setIsDialogOpen(false)
   }
 
   // useEffect(() => {
@@ -140,38 +137,39 @@ const UserPage = (): JSX.Element => {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className='bg-light-bg-primary'>
                               <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                              <DropdownMenuItem onClick={() => { navigate(`${PrivateRoutes.USER}/${user.id}`) }}>Editar</DropdownMenuItem>
-                              <DropdownMenuItem className='p-0'>
+                              <DropdownMenuItem onClick={() => { navigate(`${PrivateRoutes.USER}/${user.id}`) }}>
+                                <Pencil className="mr-2 h-4 w-4" />
+                                Editar
+                              </DropdownMenuItem>
+                              <DropdownMenuItem className="text-red-600">
                                 <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                                  <AlertDialogTrigger asChild className='w-full px-2 py-1.5'>
+                                  <AlertDialogTrigger asChild>
                                     <div
+                                      style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        width: '100%',
+                                        justifyContent: 'space-between'
+                                      }}
                                       onClick={(event) => { event.stopPropagation() }}
-                                      className={`${user.is_active ? 'text-danger' : ''} flex items-center`}
                                     >
-                                      {user.is_active
-                                        ? <><Trash className="mr-2 h-4 w-4" />Eliminar</>
-                                        : 'Activar'}
+                                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <Trash className="mr-2 h-4 w-4" />
+                                        Delete
+                                      </div>
                                     </div>
                                   </AlertDialogTrigger>
-                                  <AlertDialogContent>
+                                  <AlertDialogContent className='bg-light-bg-primary'>
                                     <AlertDialogHeader>
-                                      <AlertDialogTitle>{user.is_active ? 'Eliminar usuario' : 'Activar usuario'}</AlertDialogTitle>
-                                    </AlertDialogHeader>
-                                    {user.is_active
-                                      ? <>
-                                        <AlertDialogDescription>Esta acción eliminará el usuario, no se puede deshacer.</AlertDialogDescription>
-                                        <AlertDialogDescription>¿Estás seguro que deseas continuar?</AlertDialogDescription>
-                                      </>
-                                      : <AlertDialogDescription>
-                                        Para activar el usuario deberá contactarse con un administrador del sistema.
+                                      <AlertDialogTitle>Estas seguro de eliminar este descuento?</AlertDialogTitle>
+                                      <AlertDialogDescription>
+                                        Esta acción no se puede deshacer. Esto eliminará permanentemente tu
+                                        descuento.
                                       </AlertDialogDescription>
-                                    }
+                                    </AlertDialogHeader>
                                     <AlertDialogFooter>
-                                      <AlertDialogCancel className='h-fit'>Cancelar</AlertDialogCancel>
-                                      {user.is_active &&
-                                        <AlertDialogAction className='h-full' onClick={() => { deletePermanentlyUser(user.id) }}>
-                                          Continuar
-                                        </AlertDialogAction>}
+                                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                      <AlertDialogAction onClick={() => { deletePermanentlyUser(user.id) }}>Continue</AlertDialogAction>
                                     </AlertDialogFooter>
                                   </AlertDialogContent>
                                 </AlertDialog>
