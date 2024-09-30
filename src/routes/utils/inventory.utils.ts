@@ -5,8 +5,9 @@ const ProductPage = lazy(() => import('@/modules/inventory/pages/product'))
 const CategoriaPage = lazy(() => import('@/modules/inventory/pages/category/index'))
 
 const ProductFormPage = lazy(() => import('@/modules/inventory/pages/product/components/product-form'))
+
 // const ProductDetailsPage = lazy(() => import('@/modules/inventory/pages/product/details'))
-// const BatchFormPage = lazy(() => import('@modules/inventory/pages/product/components/batch-form'))
+const ReservasPage = lazy(() => import('@/modules/inventory/pages/Reservas/index'))
 // const FuelPage = lazy(() => import('@modules/inventory/pages/fuel'))
 // const FuelForm = lazy(() => import('@modules/inventory/pages/fuel/components/fuel-form'))
 // const GroupPage = lazy(() => import('@/modules/inventory/pages/group'))
@@ -35,12 +36,13 @@ export const inventoryRoutes: Route[] = [
     element: createElement(ProductFormPage, { buttonText: 'Actualizar Producto', title: 'Editar Producto' }),
     permissions: [] as PERMISSION[]
     // permissions: [PERMISSION.PRODUCT]
+  },
+  {
+    path: PrivateRoutes.RESERVAS,
+    element: createElement(ReservasPage),
+    permissions: [] as PERMISSION[]
+    // permissions: [PERMISSION.PRODUCT, PERMISSION.PRODUCT_SHOW]
   }
-  // {
-  //   path: PrivateRoutes.PRODUCT_DETAILS,
-  //   element: createElement(ProductDetailsPage),
-  //   permissions: [PERMISSION.PRODUCT, PERMISSION.PRODUCT_SHOW]
-  // },
   // {
   //   path: PrivateRoutes.BATCH_CREATE,
   //   element: createElement(BatchFormPage, { buttonText: 'Guardar Lote', title: 'Crear Lote' }),

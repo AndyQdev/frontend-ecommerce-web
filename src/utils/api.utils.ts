@@ -10,6 +10,9 @@ export const ENDPOINTS = {
   REGISTER: '/auth/register',
   ROLE: '/api/roles',
   PERMISO: '/api/permiso',
+  CLIENTES: '/api/clientes',
+
+  RESERVAS: '/api/reservas',
 
   // administracion
   BRANCH: '/api/branch',

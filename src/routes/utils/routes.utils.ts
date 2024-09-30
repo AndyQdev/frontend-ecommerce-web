@@ -4,6 +4,7 @@ import { createElement, lazy } from 'react'
 import { userRoutes } from './users.utils'
 import { manageRoutes } from './manage.utils'
 import { inventoryRoutes } from './inventory.utils'
+import { buyRoutes } from './buy.utils'
 export enum PublicRoutes {
   LANDING = '/',
   LOGIN = '/login',
@@ -39,7 +40,7 @@ export const PrivateAllRoutes: Route[] = [
   },
   ...userRoutes,
   ...manageRoutes,
-  ...inventoryRoutes
-  // ...buyRoutes,
+  ...inventoryRoutes,
+  ...buyRoutes
   // ...salesRoutes
 ]

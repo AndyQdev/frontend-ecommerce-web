@@ -87,11 +87,7 @@ const LoginPage = (): JSX.Element => {
                 </Form>
               </CardContent>
             </Card>
-            <div>
-              <h1>Nota: Para ingresar colocar este correo y contraseña:</h1>
-              <div>correo: admin@gmail.com</div>
-              <div>contraseña: 123456</div>
-            </div>
+
           </div>
       </main>
       {/* <SiteFooter /> */}

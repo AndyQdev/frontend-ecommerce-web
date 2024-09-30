@@ -10,6 +10,7 @@ export enum PrivateRoutes {
   SETTINGS = '/configuracion',
   // users
   USER = '/usuarios',
+  CLIENTES = PrivateRoutes.USER + '/clientes',
   PROFILE = PrivateRoutes.USER + '/perfil',
   PROFILE_UPDATE = PrivateRoutes.PROFILE + '/editar',
   USER_CREAR = PrivateRoutes.USER + '/crear',
@@ -28,6 +29,7 @@ export enum PrivateRoutes {
   REPORTS = PrivateRoutes.COMPANY + '/reportes',
   // inventory
   PRODUCT = '/productos',
+  RESERVAS = PrivateRoutes.PRODUCT + '/reservas',
   PRODUCT_ADD = PrivateRoutes.PRODUCT + '/crear',
   PRODCUT_EDIT = PrivateRoutes.PRODUCT + '/:id',
   PRODUCT_DETAILS = PrivateRoutes.PRODUCT + '/:id/detalles',

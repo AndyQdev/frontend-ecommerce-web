@@ -1,6 +1,6 @@
 import { PrivateRoutes } from '@/models/routes.model'
 import { PERMISSION } from '@/modules/auth/utils/permissions.constants'
-import { Building2Icon, BuildingIcon, FileText, KeyIcon, PackageIcon, ShoppingCart, Tag, UserCogIcon, UserIcon, UsersIcon } from 'lucide-react'
+import { Building2Icon, BuildingIcon, CalendarClock, DollarSign, FileText, KeyIcon, PackageIcon, ShoppingCart, Tag, UserCogIcon, UserIcon, UsersIcon } from 'lucide-react'
 import { createElement } from 'react'
 
 export interface MenuHeaderRoute {
@@ -21,6 +21,12 @@ export const MenuSideBar: MenuHeaderRoute[] = [
       {
         path: '/usuarios',
         label: 'Usuarios',
+        icon: createElement(UsersIcon, { width: 20, height: 20 }),
+        permissions: [PERMISSION.USER, PERMISSION.USER_SHOW]
+      },
+      {
+        path: '/usuarios/clientes',
+        label: 'Clientes',
         icon: createElement(UsersIcon, { width: 20, height: 20 }),
         permissions: [PERMISSION.USER, PERMISSION.USER_SHOW]
       },
@@ -55,6 +61,12 @@ export const MenuSideBar: MenuHeaderRoute[] = [
         label: 'Categorías',
         icon: createElement(Tag, { width: 20, height: 20 }),
         permissions: [PERMISSION.CATEGORY, PERMISSION.CATEGORY_SHOW]
+      },
+      {
+        path: PrivateRoutes.RESERVAS,
+        label: 'Reservas',
+        icon: createElement(CalendarClock, { width: 20, height: 20 }),
+        permissions: [PERMISSION.CATEGORY, PERMISSION.CATEGORY_SHOW]
       }
     ]
   },
@@ -82,6 +94,12 @@ export const MenuSideBar: MenuHeaderRoute[] = [
         path: PrivateRoutes.BRANCH,
         label: 'Sucursales',
         icon: createElement(BuildingIcon, { width: 20, height: 20 }),
+        permissions: [PERMISSION.BRANCH, PERMISSION.BRANCH_SHOW]
+      },
+      {
+        path: PrivateRoutes.SALES,
+        label: 'Ventas',
+        icon: createElement(DollarSign, { width: 20, height: 20 }),
         permissions: [PERMISSION.BRANCH, PERMISSION.BRANCH_SHOW]
       }
     ]

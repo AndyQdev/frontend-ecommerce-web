@@ -5,6 +5,7 @@ import { type PERMISSION } from '@/modules/auth/utils/permissions.constants'
 // const ProfilePage = lazy(() => import('@/modules/users/pages/profile'))
 // const ProfileForm = lazy(() => import('@/modules/users/pages/profile/components/profile-form'))
 const UserPage = lazy(() => import('@/modules/users/pages/users/index'))
+const ClientePage = lazy(() => import('@/modules/users/pages/clientes/index'))
 const UserFormPage = lazy(() => import('@/modules/users/pages/users/components/user-form'))
 const RolesPage = lazy(() => import('@/modules/auth/pages/roles/index'))
 // const RolesFormPage = lazy(() => import('@modules/auth/pages/roles/components/role-form'))
@@ -22,6 +23,13 @@ export const userRoutes: Route[] = [
   //   element: createElement(ProfileForm, { buttonText: 'Actualizar', title: 'Actualizar su Cuenta' }),
   //   permissions: [] as PERMISSION[]
   // },
+  {
+    path: PrivateRoutes.CLIENTES,
+    element: createElement(ClientePage),
+    // permissions: [PERMISSION.USER, PERMISSION.USER_SHOW]
+    permissions: [] as PERMISSION[]
+
+  },
   {
     path: PrivateRoutes.USER,
     element: createElement(UserPage),

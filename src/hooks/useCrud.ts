@@ -1,17 +1,10 @@
 import useSWRMutation from 'swr/mutation'
-// import { getAllUser } from '../services/user.service'
 import { API_BASEURL } from '@/utils'
 import { type ResponseError } from '@/utils/response-error.utils'
-// import { type User, type CreateUser, type UpdateUser } from '../models/user.model'
 import useSWR from 'swr'
 import { filterStateDefault, useFilterData } from '@/hooks/useFilterData'
 import { type ApiResponse } from '@/models'
 import { createResource, deleteResource, getAllResource, getResource, updateResource } from '@/services/crud.service'
-
-// const useCreateUser = <T, TResponse>(endpoint: string, service: TResponse) => {
-//   const { trigger, isMutating, error } = useSWRMutation<Promise<void>, ResponseError, string, T>(API_BASEURL + endpoint, service)
-//   return { createUser: trigger, isMutating, error }
-// }
 
 const useCreateResource = <TData>(endpoint: string) => {
   const { trigger, isMutating, error } = useSWRMutation<Promise<void>, ResponseError, string, TData>(
@@ -44,10 +37,5 @@ const useDeleteResource = (endpoint: string) => {
   const { trigger, error, isMutating } = useSWRMutation<Promise<void>, ResponseError, string, string>(API_BASEURL + endpoint, deleteResource)
   return { deleteResource: trigger, error, isMutating }
 }
-
-// const useDeleteRole = () => {
-//   const { trigger, error, isMutating } = useSWRMutation<Promise<void>, ResponseError, string, string>(API_BASEURL + ENDPOINTS.ROLE, deleteRole)
-//   return { deleteRole: trigger, error, isMutating }
-// }
 
 export { useCreateResource, useGetAllResource, useGetResource, useUpdateResource, useDeleteResource }
