@@ -78,12 +78,12 @@ const ReservaPage = () => {
                     {reservations?.length === 0 && <div>No hay reservas</div>}
                     {reservations?.map((reserva: Reserva) => (
                       <TableRow key={reserva.id}>
-                        <TableCell>{reserva.user.nombre}</TableCell>
+                        <TableCell>{reserva.cliente.nombre}</TableCell>
                         <TableCell>{reserva.product.nombre}</TableCell>
                         <TableCell>{reserva.fechaReserva}</TableCell>
                         <TableCell>
                           <Badge variant={
-                            reserva.estado === 'En proceso'
+                            reserva.estado === 'Pendiente'
                               ? 'default'
                               : reserva.estado === 'Cancelado' ? 'destructive' : 'secondary'
                           }>
